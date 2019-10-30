@@ -44,6 +44,14 @@ func Test_GildedRose(t *testing.T) {
 	UpdateQuality(items)
 	assert.Equal(t, items[0].sellIn,0)
 }
+
+func Test_expired_Aged_Brie_should_increase_quality_by_2_per_day(t *testing.T) {
+	_, items:=newItem("Aged Brie",-1,1)
+	UpdateQuality(items)
+	assert.Equal(t, 3,items[0].quality)
+	assert.Equal(t, -2,items[0].sellIn)
+}
+
 func Test_sellIn_should_decrease_1_per_day(t *testing.T) {
 	names:=[] string{
 		"normal item",
