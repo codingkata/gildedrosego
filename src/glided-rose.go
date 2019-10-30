@@ -24,53 +24,57 @@ func main() {
 }
 
 func GlidedRose() {
-	for i := 0; i < len(items); i++ {
+	myitems := items
+	UpdateQuality(myitems)
+}
 
-		if items[i].name != "Aged Brie" && items[i].name != "Backstage passes to a TAFKAL80ETC concert" {
-			if items[i].quality > 0 {
-				if items[i].name != "Sulfuras, Hand of Ragnaros" {
-					items[i].quality = items[i].quality - 1
+func UpdateQuality(myitems []Item) {
+	for i := 0; i < len(myitems); i++ {
+
+		if myitems[i].name != "Aged Brie" && myitems[i].name != "Backstage passes to a TAFKAL80ETC concert" {
+			if myitems[i].quality > 0 {
+				if myitems[i].name != "Sulfuras, Hand of Ragnaros" {
+					myitems[i].quality = myitems[i].quality - 1
 				}
 			}
 		} else {
-			if items[i].quality < 50 {
-				items[i].quality = items[i].quality + 1
-				if items[i].name == "Backstage passes to a TAFKAL80ETC concert" {
-					if items[i].sellIn < 11 {
-						if items[i].quality < 50 {
-							items[i].quality = items[i].quality + 1
+			if myitems[i].quality < 50 {
+				myitems[i].quality = myitems[i].quality + 1
+				if myitems[i].name == "Backstage passes to a TAFKAL80ETC concert" {
+					if myitems[i].sellIn < 11 {
+						if myitems[i].quality < 50 {
+							myitems[i].quality = myitems[i].quality + 1
 						}
 					}
-					if items[i].sellIn < 6 {
-						if items[i].quality < 50 {
-							items[i].quality = items[i].quality + 1
+					if myitems[i].sellIn < 6 {
+						if myitems[i].quality < 50 {
+							myitems[i].quality = myitems[i].quality + 1
 						}
 					}
 				}
 			}
 		}
 
-		if items[i].name != "Sulfuras, Hand of Ragnaros" {
-			items[i].sellIn = items[i].sellIn - 1
+		if myitems[i].name != "Sulfuras, Hand of Ragnaros" {
+			myitems[i].sellIn = myitems[i].sellIn - 1
 		}
 
-		if items[i].sellIn < 0 {
-			if items[i].name != "Aged Brie" {
-				if items[i].name != "Backstage passes to a TAFKAL80ETC concert" {
-					if items[i].quality > 0 {
-						if items[i].name != "Sulfuras, Hand of Ragnaros" {
-							items[i].quality = items[i].quality - 1
+		if myitems[i].sellIn < 0 {
+			if myitems[i].name != "Aged Brie" {
+				if myitems[i].name != "Backstage passes to a TAFKAL80ETC concert" {
+					if myitems[i].quality > 0 {
+						if myitems[i].name != "Sulfuras, Hand of Ragnaros" {
+							myitems[i].quality = myitems[i].quality - 1
 						}
 					}
 				} else {
-					items[i].quality = items[i].quality - items[i].quality
+					myitems[i].quality = myitems[i].quality - myitems[i].quality
 				}
 			} else {
-				if items[i].quality < 50 {
-					items[i].quality = items[i].quality + 1
+				if myitems[i].quality < 50 {
+					myitems[i].quality = myitems[i].quality + 1
 				}
 			}
 		}
 	}
-
 }
