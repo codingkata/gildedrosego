@@ -2,6 +2,8 @@ package main
 
 type ItemUpdater interface {
 	UpdateQuality(item *Item)
+	UpdateSellIn(item *Item)
+	UpdateQualityWhenExpiration(item *Item)
 }
 
 func createUpdater(item *Item) ItemUpdater {

@@ -24,46 +24,20 @@ func main() {
 }
 
 func GlidedRose() {
-	myitems := items
-	UpdateQualityForAll(myitems)
+	UpdateQualityForAll(items)
 }
 
 func UpdateQualityForAll(myitems []Item) {
-	for i := 0; i < len(myitems); i++ {
-		item := &myitems[i]
-		passOneDay(item)
+	for i := 0; i< len(myitems);i++  {
+		passOneDay(&myitems[i])
 	}
 }
 
 func passOneDay(item *Item) {
 	updater:=createUpdater(item)
 	updater.UpdateQuality(item)
-	UpdateSellIn(item)
+	updater.UpdateSellIn(item)
 	if item.sellIn < 0 {
-		updateQualityWhenExpiration(item)
-	}
-}
-
-func UpdateSellIn(item *Item) {
-	if item.name != "Sulfuras, Hand of Ragnaros" {
-		item.sellIn--
-	}
-}
-
-func updateQualityWhenExpiration(item *Item) {
-	if item.name != "Aged Brie" {
-		if item.name != "Backstage passes to a TAFKAL80ETC concert" {
-			if item.quality > 0 {
-				if item.name != "Sulfuras, Hand of Ragnaros" {
-					item.quality--
-				}
-			}
-		} else {
-			item.quality = 0
-		}
-	} else {
-		if item.quality < 50 {
-			item.quality++
-		}
+		updater.UpdateQualityWhenExpiration(item)
 	}
 }
