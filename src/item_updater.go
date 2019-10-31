@@ -13,7 +13,9 @@ func createUpdater(item *Item) ItemUpdater {
 		return BackstagePasses{}
 	} else if item.name == "Sulfuras, Hand of Ragnaros" {
 		return Sulfuras{}
+	} else if item.name == "Conjured" {
+		return Conjured{}
 	} else {
-		 return NormalItem{}
+		return NormalItem{}
 	}
 }

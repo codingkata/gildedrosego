@@ -41,3 +41,19 @@ func passOneDay(item *Item) {
 		updater.UpdateQualityWhenExpiration(item)
 	}
 }
+
+type Conjured struct{
+    NormalItem
+}
+func (c Conjured) UpdateQualityWhenExpiration(item *Item) {
+	c.NormalItem.UpdateQualityWhenExpiration(item)
+}
+
+func (c Conjured) UpdateSellIn(item *Item) {
+	c.NormalItem.UpdateSellIn(item)
+}
+
+func (c Conjured) UpdateQuality(item *Item) {
+	c.NormalItem.UpdateQuality(item)
+	c.NormalItem.UpdateQuality(item)
+}
