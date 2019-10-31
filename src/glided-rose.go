@@ -48,24 +48,22 @@ func UpdateItemQuality(item *Item) {
 		a:=AgedBrie{}
 		a.UpdateQuality(item)
 	} else if item.name == "Backstage passes to a TAFKAL80ETC concert" {
-		if item.quality < 50 {
-			item.quality++
-			if item.sellIn < 11 {
-				if item.quality < 50 {
-					item.quality++
-				}
-			}
-			if item.sellIn < 6 {
-				if item.quality < 50 {
-					item.quality++
-				}
-			}
-		}
+		b:= BackstagePasses{}
+		b.UpdateQuality(item)
 	} else if item.name == "Sulfuras, Hand of Ragnaros" {
+		s:= Sulfuras{}
+		s.UpdateQuality(item)
 	} else {
-		if item.quality > 0 {
-			item.quality--
-		}
+		n:=NormalItem{}
+		n.UpdateQuality(item)
+	}
+}
+type NormalItem struct{
+
+}
+func(n NormalItem) UpdateQuality(item *Item) {
+	if item.quality > 0 {
+		item.quality--
 	}
 }
 
