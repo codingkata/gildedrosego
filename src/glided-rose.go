@@ -8,12 +8,12 @@ type Item struct {
 }
 
 var items = []Item{
-	Item{"+5 Dexterity Vest", 10, 20},
-	Item{"Aged Brie", 2, 0},
-	Item{"Elixir of the Mongoose", 5, 7},
-	Item{"Sulfuras, Hand of Ragnaros", 0, 80},
-	Item{"Backstage passes to a TAFKAL80ETC concert", 10, 20},
-	Item{"Conjured Mana Cake", 3, 6},
+	{"+5 Dexterity Vest", 10, 20},
+	{"Aged Brie", 2, 0},
+	{"Elixir of the Mongoose", 5, 7},
+	{"Sulfuras, Hand of Ragnaros", 0, 80},
+	{"Backstage passes to a TAFKAL80ETC concert", 10, 20},
+	{"Conjured Mana Cake", 3, 6},
 }
 
 func main() {
@@ -30,51 +30,66 @@ func GlidedRose() {
 
 func UpdateQuality(myitems []Item) {
 	for i := 0; i < len(myitems); i++ {
+		item := &myitems[i]
+		passOneDay(item)
+	}
+}
 
-		if myitems[i].name != "Aged Brie" && myitems[i].name != "Backstage passes to a TAFKAL80ETC concert" {
-			if myitems[i].quality > 0 {
-				if myitems[i].name != "Sulfuras, Hand of Ragnaros" {
-					myitems[i].quality = myitems[i].quality - 1
+func passOneDay(item *Item) {
+	UpdateItemQuality(item)
+	UpdateSellIn(item)
+	if item.sellIn < 0 {
+		updateQualityWhenExpiration(item)
+	}
+}
+
+func updateQualityWhenExpiration(item *Item) {
+	if item.name != "Aged Brie" {
+		if item.name != "Backstage passes to a TAFKAL80ETC concert" {
+			if item.quality > 0 {
+				if item.name != "Sulfuras, Hand of Ragnaros" {
+					item.quality--
 				}
 			}
 		} else {
-			if myitems[i].quality < 50 {
-				myitems[i].quality = myitems[i].quality + 1
-				if myitems[i].name == "Backstage passes to a TAFKAL80ETC concert" {
-					if myitems[i].sellIn < 11 {
-						if myitems[i].quality < 50 {
-							myitems[i].quality = myitems[i].quality + 1
-						}
-					}
-					if myitems[i].sellIn < 6 {
-						if myitems[i].quality < 50 {
-							myitems[i].quality = myitems[i].quality + 1
-						}
-					}
+			item.quality = 0
+		}
+	} else {
+		if item.quality < 50 {
+			item.quality++
+		}
+	}
+}
+
+func UpdateSellIn(item *Item) {
+	if item.name != "Sulfuras, Hand of Ragnaros" {
+		item.sellIn--
+	}
+}
+
+func UpdateItemQuality(item *Item) {
+	if item.name == "Aged Brie" {
+		if item.quality < 50 {
+			item.quality++
+		}
+	} else if item.name == "Backstage passes to a TAFKAL80ETC concert" {
+		if item.quality < 50 {
+			item.quality++
+			if item.sellIn < 11 {
+				if item.quality < 50 {
+					item.quality++
+				}
+			}
+			if item.sellIn < 6 {
+				if item.quality < 50 {
+					item.quality++
 				}
 			}
 		}
-
-		if myitems[i].name != "Sulfuras, Hand of Ragnaros" {
-			myitems[i].sellIn = myitems[i].sellIn - 1
-		}
-
-		if myitems[i].sellIn < 0 {
-			if myitems[i].name != "Aged Brie" {
-				if myitems[i].name != "Backstage passes to a TAFKAL80ETC concert" {
-					if myitems[i].quality > 0 {
-						if myitems[i].name != "Sulfuras, Hand of Ragnaros" {
-							myitems[i].quality = myitems[i].quality - 1
-						}
-					}
-				} else {
-					myitems[i].quality = myitems[i].quality - myitems[i].quality
-				}
-			} else {
-				if myitems[i].quality < 50 {
-					myitems[i].quality = myitems[i].quality + 1
-				}
-			}
+	} else if item.name == "Sulfuras, Hand of Ragnaros" {
+	} else {
+		if item.quality > 0 {
+			item.quality--
 		}
 	}
 }
