@@ -45,6 +45,7 @@ func Test_All_items_sellIn_should_decrease_1_per_day_except_for_Sulfuras(t *test
 		expected Item
 	}{
 		{Item{"normal item", 1, 1}, Item{"normal item", 0, 0}},
+		{Item{"Conjured", 1, 2}, Item{"Conjured", 0, 0}},
 		{Item{"Backstage passes to a TAFKAL80ETC concert", 1, 1}, Item{"Backstage passes to a TAFKAL80ETC concert", 0, 0}},
 		{Item{"Aged Brie", 1, 1}, Item{"Aged Brie", 0, 0}},
 		{Item{"Sulfuras, Hand of Ragnaros", 1, 1}, Item{"Sulfuras, Hand of Ragnaros", 1, 1}},
@@ -54,6 +55,22 @@ func Test_All_items_sellIn_should_decrease_1_per_day_except_for_Sulfuras(t *test
 			_, items := newItem(item.input.name, item.input.sellIn, item.input.quality)
 			UpdateQualityForAll(items)
 			assert.Equal(t, item.expected.sellIn, items[0].sellIn)
+		})
+	}
+}
+
+func Test_Conjured_quality_should_decrease_2_per_day_until_expired(t *testing.T) {
+	names := [] string{
+		"Conjured",
+	}
+	for _, name := range names {
+		t.Run(name, func(t *testing.T) {
+			sellIn := 1
+			nonNegativeQuality := 20
+			_, items := newItem(name, sellIn, nonNegativeQuality)
+			UpdateQualityForAll(items)
+			assert.Equal(t, sellIn-1, items[0].sellIn)
+			assert.Equal(t, 18, items[0].quality)
 		})
 	}
 }
