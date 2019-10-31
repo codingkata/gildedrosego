@@ -36,34 +36,11 @@ func UpdateQualityForAll(myitems []Item) {
 }
 
 func passOneDay(item *Item) {
-	UpdateItemQuality(item)
+	updater:=createUpdater(item)
+	updater.UpdateQuality(item)
 	UpdateSellIn(item)
 	if item.sellIn < 0 {
 		updateQualityWhenExpiration(item)
-	}
-}
-
-func UpdateItemQuality(item *Item) {
-	if item.name == "Aged Brie" {
-		a:=AgedBrie{}
-		a.UpdateQuality(item)
-	} else if item.name == "Backstage passes to a TAFKAL80ETC concert" {
-		b:= BackstagePasses{}
-		b.UpdateQuality(item)
-	} else if item.name == "Sulfuras, Hand of Ragnaros" {
-		s:= Sulfuras{}
-		s.UpdateQuality(item)
-	} else {
-		n:=NormalItem{}
-		n.UpdateQuality(item)
-	}
-}
-type NormalItem struct{
-
-}
-func(n NormalItem) UpdateQuality(item *Item) {
-	if item.quality > 0 {
-		item.quality--
 	}
 }
 
