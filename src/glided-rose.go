@@ -25,10 +25,10 @@ func main() {
 
 func GlidedRose() {
 	myitems := items
-	UpdateQuality(myitems)
+	UpdateQualityForAll(myitems)
 }
 
-func UpdateQuality(myitems []Item) {
+func UpdateQualityForAll(myitems []Item) {
 	for i := 0; i < len(myitems); i++ {
 		item := &myitems[i]
 		passOneDay(item)
@@ -43,35 +43,10 @@ func passOneDay(item *Item) {
 	}
 }
 
-func updateQualityWhenExpiration(item *Item) {
-	if item.name != "Aged Brie" {
-		if item.name != "Backstage passes to a TAFKAL80ETC concert" {
-			if item.quality > 0 {
-				if item.name != "Sulfuras, Hand of Ragnaros" {
-					item.quality--
-				}
-			}
-		} else {
-			item.quality = 0
-		}
-	} else {
-		if item.quality < 50 {
-			item.quality++
-		}
-	}
-}
-
-func UpdateSellIn(item *Item) {
-	if item.name != "Sulfuras, Hand of Ragnaros" {
-		item.sellIn--
-	}
-}
-
 func UpdateItemQuality(item *Item) {
 	if item.name == "Aged Brie" {
-		if item.quality < 50 {
-			item.quality++
-		}
+		a:=AgedBrie{}
+		a.UpdateQuality(item)
 	} else if item.name == "Backstage passes to a TAFKAL80ETC concert" {
 		if item.quality < 50 {
 			item.quality++
@@ -90,6 +65,30 @@ func UpdateItemQuality(item *Item) {
 	} else {
 		if item.quality > 0 {
 			item.quality--
+		}
+	}
+}
+
+func UpdateSellIn(item *Item) {
+	if item.name != "Sulfuras, Hand of Ragnaros" {
+		item.sellIn--
+	}
+}
+
+func updateQualityWhenExpiration(item *Item) {
+	if item.name != "Aged Brie" {
+		if item.name != "Backstage passes to a TAFKAL80ETC concert" {
+			if item.quality > 0 {
+				if item.name != "Sulfuras, Hand of Ragnaros" {
+					item.quality--
+				}
+			}
+		} else {
+			item.quality = 0
+		}
+	} else {
+		if item.quality < 50 {
+			item.quality++
 		}
 	}
 }

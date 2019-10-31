@@ -52,7 +52,7 @@ func Test_All_items_sellIn_should_decrease_1_per_day_except_for_Sulfuras(t *test
 	for _, item := range tests {
 		t.Run(item.input.name, func(t *testing.T) {
 			_, items := newItem(item.input.name, item.input.sellIn, item.input.quality)
-			UpdateQuality(items)
+			UpdateQualityForAll(items)
 			assert.Equal(t, item.expected.sellIn, items[0].sellIn)
 		})
 	}
@@ -73,7 +73,7 @@ func Test_All_items_quality_should_not_negative_at_all(t *testing.T) {
 			for _, eachSellIn := range sellIns {
 				nonNegativeQuality := 0
 				_, items := newItem(name, eachSellIn, nonNegativeQuality)
-				UpdateQuality(items)
+				UpdateQualityForAll(items)
 				assert.GreaterOrEqual(t,  items[0].quality,0)
 			}
 		})
@@ -89,7 +89,7 @@ func Test_Normal_item_quality_should_decrease_1_per_day_until_expired(t *testing
 			sellIn := 0
 			nonNegativeQuality := 0
 			_, items := newItem(name, sellIn, nonNegativeQuality)
-			UpdateQuality(items)
+			UpdateQualityForAll(items)
 			assert.Equal(t, sellIn-1, items[0].sellIn)
 			assert.Equal(t, 0, items[0].quality)
 		})
@@ -105,7 +105,7 @@ func Test_Normal_item_quality_should_decrease_by_2_once_expiration(t *testing.T)
 		expiredDay := 0
 		t.Run("quality of normal should decrease by 1", func(t *testing.T) {
 			_, items := newItem("normal", expiredDay, quality)
-			UpdateQuality(items)
+			UpdateQualityForAll(items)
 			assert.Equal(t, quality-2, items[0].quality)
 			assert.Equal(t, expiredDay-1, items[0].sellIn)
 		})
@@ -114,14 +114,14 @@ func Test_Normal_item_quality_should_decrease_by_2_once_expiration(t *testing.T)
 
 func Test_Aged_Brie_quality_should_increase_quality_by_1_per_day_until_expiration(t *testing.T) {
 	_, items := newItem("Aged Brie", 1, 1)
-	UpdateQuality(items)
+	UpdateQualityForAll(items)
 	assert.Equal(t, 2, items[0].quality)
 	assert.Equal(t, 0, items[0].sellIn)
 }
 
 func Test_Aged_Brie_quality_should_increase_by_2_per_day_once_expiration(t *testing.T) {
 	_, items := newItem("Aged Brie", -1, 1)
-	UpdateQuality(items)
+	UpdateQualityForAll(items)
 	assert.Equal(t, 3, items[0].quality)
 	assert.Equal(t, -2, items[0].sellIn)
 }
@@ -139,7 +139,7 @@ func Test_Aged_Brie_quality_should_not_more_than_50(t *testing.T) {
 	for name, testcase := range tests {
 		t.Run(name, func(t *testing.T) {
 			_, items := newItem("Aged Brie", testcase.sellIn, testcase.quality)
-			UpdateQuality(items)
+			UpdateQualityForAll(items)
 			assert.Equal(t, testcase.expectquality, items[0].quality)
 			assert.Equal(t, testcase.expectSellIn, items[0].sellIn)
 		})
@@ -159,7 +159,7 @@ func Test_Sulfuras_should_not_expired_and_quality_is_80_forever(t *testing.T) {
 	for name, testcase := range tests {
 		t.Run(name, func(t *testing.T) {
 			_, items := newItem("Sulfuras, Hand of Ragnaros", testcase.sellIn, testcase.quality)
-			UpdateQuality(items)
+			UpdateQualityForAll(items)
 			assert.Equal(t, testcase.expectquality, items[0].quality)
 			assert.Equal(t, testcase.expectSellIn, items[0].sellIn)
 		})
@@ -180,7 +180,7 @@ func Test_Backstage_passes_quality_should_increase_according_to_sellIn_for(t *te
 	for name, testcase := range tests {
 		t.Run(name, func(t *testing.T) {
 			_, items := newItem("Backstage passes to a TAFKAL80ETC concert", testcase.sellIn, testcase.quality)
-			UpdateQuality(items)
+			UpdateQualityForAll(items)
 			assert.Equal(t, testcase.expectquality, items[0].quality)
 		})
 	}
